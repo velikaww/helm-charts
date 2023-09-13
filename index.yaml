@@ -1,0 +1,22 @@
+apiVersion: v1
+entries:
+  gitolite:
+  - apiVersion: v1
+    appVersion: 3.6.7
+    created: "2023-09-14T01:09:06.755697+08:00"
+    description: Hosting git repositories -- Gitolite allows you to setup git hosting
+      on a central server, with very fine-grained access control and many (many!)
+      more powerful features.
+    digest: ef57673df493f7db2bdefb34cc6228b122e6920f9939b67f02653efd14ab643d
+    home: http://gitolite.com
+    maintainers:
+    - email: amiga@scheller.es
+      name: amiga23
+    name: gitolite
+    sources:
+    - https://github.com/sitaramc/gitolite
+    - https://github.com/jgiannuzzi/docker-gitolite
+    urls:
+    - gitolite-0.0.1.tgz
+    version: 0.0.1
+generated: "2023-09-14T01:09:06.755199+08:00"
