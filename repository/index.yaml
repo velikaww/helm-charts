@@ -3,9 +3,9 @@ entries:
   gitolite:
   - apiVersion: v1
     appVersion: 3.6.13
-    created: "2023-09-15T00:36:34.007054+08:00"
+    created: "2023-09-15T00:48:58.438932+08:00"
     description: gitolite
-    digest: 0fe6a210e10e4d2f9ae9168e251dd255c4387a59a7d0a6c42ab1fe06672f8001
+    digest: 56a3a007948e2bd23a2b1d5ed8c09f2cdf2639c78c8269e33049640727f6c903
     home: http://gitolite.com
     maintainers:
     - email: github@regiswang.com
@@ -17,4 +17,4 @@ entries:
     urls:
     - gitolite-1.0.0.tgz
     version: 1.0.0
-generated: "2023-09-15T00:36:34.006483+08:00"
+generated: "2023-09-15T00:48:58.438342+08:00"
