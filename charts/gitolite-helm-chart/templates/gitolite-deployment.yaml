@@ -69,7 +69,7 @@ spec:
           command:
             - 'sh'
             - '-c'
-            - '[ ! -e /tmp/git/initialized ] && echo 0 > /tmp/git/initialized && chown -R git:git /tmp/git && chmod -R u+w /tmp/git'
+            - '[ ! -e /tmp/git/initialized ] && echo 0 > /tmp/git/initialized && chown -R git:git /tmp/git && chmod -R u+w /tmp/git || :'
           securityContext:
             runAsUser: 0
           volumeMounts:
