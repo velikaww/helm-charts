@@ -51,6 +51,9 @@ spec:
 {{- if .Values.Persistence.mounts }}
 {{ toYaml .Values.Persistence.mounts | indent 12 }}
 {{- end }}
+            - mountPath: /etc/ssh/sshd_config
+              name: gitolite-config
+              subPath: sshd_config
             -
               mountPath: /etc/ssh
               name: gitolite-ssh-keys
@@ -78,6 +81,10 @@ spec:
       - name: gitolite-ssh-keys
         persistentVolumeClaim:
           claimName: {{ .Values.Persistence.SshKeys.ExistingClaim | default (include "gitolite.claimname.ssh-keys" .) }}
+      - configMap:
+          defaultMode: 420
+          name: {{ template "gitolite.configmapname.ssh-config" . }}
+        name: gitolite-config
       - name: gitolite-git
       {{- if .Values.Persistence.Git.Enabled }}
         persistentVolumeClaim:

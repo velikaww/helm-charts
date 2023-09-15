@@ -24,3 +24,8 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- $name := default .Chart.Name .Values.nameOverride -}}
 {{- printf "%s-%s-git" .Release.Name $name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+
+{{- define "gitolite.configmapname.ssh-config" -}}
+{{- $name := default .Chart.Name .Values.nameOverride -}}
+{{- printf "%s-%s-ssh-config" .Release.Name $name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
