@@ -1,0 +1,12 @@
+name: gitolite
+home: http://gitolite.com
+version: 1.0.1
+appVersion: 3.6.13
+description: gitolite
+sources:
+- https://github.com/sitaramc/gitolite
+- https://github.com/miracle2k/docker-gitolite
+maintainers:
+- name: velikaww
+  email: github@regiswang.com
+#icon: https://gitolite.com/logo.png
