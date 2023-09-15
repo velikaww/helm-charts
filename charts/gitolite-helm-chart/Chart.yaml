@@ -1,6 +1,6 @@
 name: gitolite
 home: http://gitolite.com
-version: 1.0.1
+version: 1.0.2
 appVersion: 3.6.13
 description: gitolite
 sources:
