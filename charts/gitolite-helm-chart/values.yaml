@@ -45,6 +45,7 @@ Persistence:
     StorageClass: null
     AccessMode: ReadWriteOnce
     Size: 1Gi
+    Annotations: {}
   Git:
     Enabled: true
     ## A manually managed Persistent Volume and Claim
@@ -62,6 +63,7 @@ Persistence:
     StorageClass: null
     AccessMode: ReadWriteOnce
     Size: 8Gi
+    Annotations: {}
   volumes:
 #  - name: nothing
 #    emptyDir: {}

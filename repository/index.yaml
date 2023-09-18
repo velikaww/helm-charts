@@ -3,7 +3,23 @@ entries:
   gitolite:
   - apiVersion: v1
     appVersion: 3.6.13
-    created: "2023-09-19T01:00:49.231898+08:00"
+    created: "2023-09-19T01:03:12.42202+08:00"
+    description: gitolite
+    digest: cec3957a3a1d5b2b68668b8089c439429a12cc92e797cb9f555fa2a644a9090f
+    home: http://gitolite.com
+    maintainers:
+    - email: github@regiswang.com
+      name: velikaww
+    name: gitolite
+    sources:
+    - https://github.com/sitaramc/gitolite
+    - https://github.com/miracle2k/docker-gitolite
+    urls:
+    - gitolite-1.0.5.tgz
+    version: 1.0.5
+  - apiVersion: v1
+    appVersion: 3.6.13
+    created: "2023-09-19T01:03:12.421596+08:00"
     description: gitolite
     digest: 3a9453d4ac387a687ba38bfe6deaa5cec3aa9530225db4700af4a899b836921c
     home: http://gitolite.com
@@ -19,7 +35,7 @@ entries:
     version: 1.0.4
   - apiVersion: v1
     appVersion: 3.6.13
-    created: "2023-09-19T01:00:49.229544+08:00"
+    created: "2023-09-19T01:03:12.41979+08:00"
     description: gitolite
     digest: ae0ae8c47c576887ee15cb8a4907ecdf7a795fc86192f71453ceb3f18dc14574
     home: http://gitolite.com
@@ -35,7 +51,7 @@ entries:
     version: 1.0.3
   - apiVersion: v1
     appVersion: 3.6.13
-    created: "2023-09-19T01:00:49.229088+08:00"
+    created: "2023-09-19T01:03:12.419431+08:00"
     description: gitolite
     digest: ed6051b895e34aae0ed720067df437ea886b87f05e1eff2174efee4a1560d4d3
     home: http://gitolite.com
@@ -51,7 +67,7 @@ entries:
     version: 1.0.2
   - apiVersion: v1
     appVersion: 3.6.13
-    created: "2023-09-19T01:00:49.228616+08:00"
+    created: "2023-09-19T01:03:12.419099+08:00"
     description: gitolite
     digest: 80a6352db3a1ac911da6a3aab1ef74982f5f503234e1bcb6a12801e456c60a6a
     home: http://gitolite.com
@@ -67,7 +83,7 @@ entries:
     version: 1.0.1
   - apiVersion: v1
     appVersion: 3.6.13
-    created: "2023-09-19T01:00:49.228201+08:00"
+    created: "2023-09-19T01:03:12.418607+08:00"
     description: gitolite
     digest: c18d72858dcf3c10770a9e487fd8d49a52e2515c6a035be7597f912e0307e76e
     home: http://gitolite.com
@@ -84,7 +100,7 @@ entries:
   ssh-tunnel:
   - apiVersion: v1
     appVersion: 1.0.0
-    created: "2023-09-19T01:00:49.232196+08:00"
+    created: "2023-09-19T01:03:12.422398+08:00"
     description: ssh-tunnel
     digest: dfcae4d9d11ea1453f48be8afa0c386bb65919da817e1ec490112c22b15ff072
     home: https://github.com/velikaww/helm-charts
@@ -95,4 +111,4 @@ entries:
     urls:
     - ssh-tunnel-1.0.0.tgz
     version: 1.0.0
-generated: "2023-09-19T01:00:49.227658+08:00"
+generated: "2023-09-19T01:03:12.418134+08:00"

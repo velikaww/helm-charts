@@ -3,6 +3,10 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: {{ template "gitolite.claimname.ssh-keys" . }}
+  {{- if .Values.Persistence.SshKeys.Annotations }}
+  annotations:
+{{ toYaml .Values.Persistence.SshKeys.Annotations | indent 4 }}
+  {{- end }}
   labels:
     app: {{ template "gitolite.fullname" . }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
