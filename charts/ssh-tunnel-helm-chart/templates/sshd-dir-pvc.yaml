@@ -2,7 +2,7 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ template "sshtunnel.claimname.sshd-keys" . }}
+  name: {{ template "sshtunnel.claimname.sshd-dir" . }}
   labels:
     app: {{ template "sshtunnel.fullname" . }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
