@@ -38,7 +38,7 @@ spec:
           command:
             - sh
             - '-c'
-            - 'adduser -h /home/{{ .Values.User }} -D {{ .Values.User }} && chown -R {{ .Values.User }}:{{ .Values.User }} /home/{{ .Values.User }} && /usr/sbin/sshd -D'
+            - 'adduser -h /home/{{ .Values.User }} -D {{ .Values.User }} && chown -R {{ .Values.User }}:{{ .Values.User }} /home/{{ .Values.User }} && passwd -d {{ .Values.User }} && /usr/sbin/sshd -D'
           ports:
             - containerPort: {{ .Values.ContainerPort }}
               name: ssh

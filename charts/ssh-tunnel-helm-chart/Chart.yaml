@@ -1,6 +1,6 @@
 name: ssh-tunnel
 home: https://github.com/velikaww/helm-charts
-version: 1.0.4
+version: 1.0.5
 appVersion: 1.1.0
 description: ssh-tunnel
 maintainers:
