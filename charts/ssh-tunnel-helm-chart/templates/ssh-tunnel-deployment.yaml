@@ -38,7 +38,7 @@ spec:
           command:
             - sh
             - '-c'
-            - 'adduser -h /home/{{ .Values.ContainerPort }} -D {{ .Values.ContainerPort }} && chown -R {{ .Values.ContainerPort }}:{{ .Values.ContainerPort }} /home/{{ .Values.ContainerPort }} && /usr/sbin/sshd -D'
+            - 'adduser -h /home/{{ .Values.User }} -D {{ .Values.User }} && chown -R {{ .Values.User }}:{{ .Values.User }} /home/{{ .Values.User }} && /usr/sbin/sshd -D'
           ports:
             - containerPort: {{ .Values.ContainerPort }}
               name: ssh
@@ -53,15 +53,12 @@ spec:
             - mountPath: /etc/ssh/sshd_config
               name: sshtunnel-sshd-config
               subPath: sshd_config
-              readOnly: true
             -
               mountPath: /etc/ssh
               name: sshtunnel-sshd-dir
-              readOnly: true
             -
-              mountPath: /home/{{ .Values.ContainerPort }}/.ssh
+              mountPath: /home/{{ .Values.User }}/.ssh
               name: sshtunnel-ssh-dir
-              readOnly: true
       volumes:
       - name: sshtunnel-sshd-dir
         persistentVolumeClaim:
