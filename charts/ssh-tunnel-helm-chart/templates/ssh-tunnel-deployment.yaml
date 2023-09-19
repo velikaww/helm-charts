@@ -6,7 +6,7 @@ metadata:
     heritage: {{ .Release.Service | quote }}
     release: {{ .Release.Name | quote }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    component: "{{ .Release.Name }}-{{ .Values.Name }}"
+    component: "{{ .Release.Name }}-{{ template "sshtunnel.name" . }}"
 spec:
   replicas: 1
   strategy:

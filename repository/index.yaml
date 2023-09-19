@@ -3,7 +3,7 @@ entries:
   gitolite:
   - apiVersion: v1
     appVersion: 3.6.13
-    created: "2023-09-19T23:04:52.703748+08:00"
+    created: "2023-09-19T23:52:18.135057+08:00"
     description: gitolite
     digest: cec3957a3a1d5b2b68668b8089c439429a12cc92e797cb9f555fa2a644a9090f
     home: http://gitolite.com
@@ -19,7 +19,7 @@ entries:
     version: 1.0.5
   - apiVersion: v1
     appVersion: 3.6.13
-    created: "2023-09-19T23:04:52.702717+08:00"
+    created: "2023-09-19T23:52:18.134574+08:00"
     description: gitolite
     digest: 3a9453d4ac387a687ba38bfe6deaa5cec3aa9530225db4700af4a899b836921c
     home: http://gitolite.com
@@ -35,7 +35,7 @@ entries:
     version: 1.0.4
   - apiVersion: v1
     appVersion: 3.6.13
-    created: "2023-09-19T23:04:52.702027+08:00"
+    created: "2023-09-19T23:52:18.134127+08:00"
     description: gitolite
     digest: ae0ae8c47c576887ee15cb8a4907ecdf7a795fc86192f71453ceb3f18dc14574
     home: http://gitolite.com
@@ -51,7 +51,7 @@ entries:
     version: 1.0.3
   - apiVersion: v1
     appVersion: 3.6.13
-    created: "2023-09-19T23:04:52.697267+08:00"
+    created: "2023-09-19T23:52:18.133644+08:00"
     description: gitolite
     digest: ed6051b895e34aae0ed720067df437ea886b87f05e1eff2174efee4a1560d4d3
     home: http://gitolite.com
@@ -67,7 +67,7 @@ entries:
     version: 1.0.2
   - apiVersion: v1
     appVersion: 3.6.13
-    created: "2023-09-19T23:04:52.696477+08:00"
+    created: "2023-09-19T23:52:18.131658+08:00"
     description: gitolite
     digest: 80a6352db3a1ac911da6a3aab1ef74982f5f503234e1bcb6a12801e456c60a6a
     home: http://gitolite.com
@@ -83,7 +83,7 @@ entries:
     version: 1.0.1
   - apiVersion: v1
     appVersion: 3.6.13
-    created: "2023-09-19T23:04:52.695746+08:00"
+    created: "2023-09-19T23:52:18.131171+08:00"
     description: gitolite
     digest: c18d72858dcf3c10770a9e487fd8d49a52e2515c6a035be7597f912e0307e76e
     home: http://gitolite.com
@@ -100,7 +100,20 @@ entries:
   ssh-tunnel:
   - apiVersion: v1
     appVersion: 1.0.0
-    created: "2023-09-19T23:04:52.70614+08:00"
+    created: "2023-09-19T23:52:18.13627+08:00"
+    description: ssh-tunnel
+    digest: 8a05e28f82a2817c42587d5366b66d2e28995b3b9d4214dc343fecd614feecfa
+    home: https://github.com/velikaww/helm-charts
+    maintainers:
+    - email: github@regiswang.com
+      name: velikaww
+    name: ssh-tunnel
+    urls:
+    - ssh-tunnel-1.0.2.tgz
+    version: 1.0.2
+  - apiVersion: v1
+    appVersion: 1.0.0
+    created: "2023-09-19T23:52:18.135966+08:00"
     description: ssh-tunnel
     digest: 3d9740aa1e497b95624cf0c0c3c0781357d2c94a2c4cb4906731c01c5ec4ac14
     home: https://github.com/velikaww/helm-charts
@@ -113,7 +126,7 @@ entries:
     version: 1.0.1
   - apiVersion: v1
     appVersion: 1.0.0
-    created: "2023-09-19T23:04:52.705747+08:00"
+    created: "2023-09-19T23:52:18.135524+08:00"
     description: ssh-tunnel
     digest: dfcae4d9d11ea1453f48be8afa0c386bb65919da817e1ec490112c22b15ff072
     home: https://github.com/velikaww/helm-charts
@@ -124,4 +137,4 @@ entries:
     urls:
     - ssh-tunnel-1.0.0.tgz
     version: 1.0.0
-generated: "2023-09-19T23:04:52.694938+08:00"
+generated: "2023-09-19T23:52:18.130583+08:00"
