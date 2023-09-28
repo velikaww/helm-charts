@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "sshtunnel.fullname" . }}
+  labels:
+    heritage: {{ .Release.Service | quote }}
+    release: {{ .Release.Name | quote }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    component: "{{ .Release.Name }}-{{ template "sshtunnel.name" . }}"
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      component: "{{ .Release.Name }}-{{ .Values.Component }}"
+  template:
+    metadata:
+      labels:
+        app: {{ template "sshtunnel.fullname" . }}
+        heritage: {{ .Release.Service | quote }}
+        release: {{ .Release.Name | quote }}
+        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+        component: "{{ .Release.Name }}-{{ .Values.Component }}"
+    spec:
+      {{- if .Values.NodeSelector }}
+      nodeSelector:
+{{ toYaml .Values.NodeSelector | indent 8 }}
+      {{- end }}
+      {{- if .Values.Tolerations }}
+      tolerations:
+{{ toYaml .Values.Tolerations | indent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ template "sshtunnel.fullname" . }}
+          image: "{{ .Values.Image }}:{{ .Values.ImageTag }}"
+          imagePullPolicy: "{{ .Values.ImagePullPolicy }}"
+          command:
+            - sh
+            - '-c'
+            - 'adduser -h /home/{{ .Values.User }} -D {{ .Values.User }} && chown -R {{ .Values.User }}:{{ .Values.User }} /home/{{ .Values.User }} && passwd -d {{ .Values.User }} && /usr/sbin/sshd -D'
+          ports:
+            - containerPort: {{ .Values.ContainerPort }}
+              name: ssh
+          resources:
+            requests:
+              cpu: "{{ .Values.Cpu }}"
+              memory: "{{ .Values.Memory }}"
+          volumeMounts:
+{{- if .Values.Persistence.mounts }}
+{{ toYaml .Values.Persistence.mounts | indent 12 }}
+{{- end }}
+            - mountPath: /etc/ssh/sshd_config
+              name: sshtunnel-sshd-config
+              subPath: sshd_config
+            -
+              mountPath: /etc/ssh
+              name: sshtunnel-sshd-dir
+            -
+              mountPath: /home/{{ .Values.User }}/.ssh
+              name: sshtunnel-ssh-dir
+      volumes:
+      - name: sshtunnel-sshd-dir
+        persistentVolumeClaim:
+          claimName: {{ .Values.Persistence.SshdDir.ExistingClaim | default (include "sshtunnel.claimname.sshd-dir" .) }}
+      - configMap:
+          defaultMode: 420
+          name: {{ template "sshtunnel.configmapname.ssh-config" . }}
+        name: sshtunnel-sshd-config
+      - name: sshtunnel-ssh-dir
+      {{- if .Values.Persistence.SshDir.Enabled }}
+        persistentVolumeClaim:
+          claimName: {{ .Values.Persistence.SshDir.ExistingClaim | default (include "sshtunnel.claimname.ssh-dir" .) }}
+      {{- else }}
+        emptyDir: {}
+      {{- end -}}
+

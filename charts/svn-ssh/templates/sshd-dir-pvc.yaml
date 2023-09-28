@@ -1,0 +1,24 @@
+{{- if and .Values.Persistence.SshdDir.Enabled (not .Values.Persistence.SshdDir.ExistingClaim) -}}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ template "sshtunnel.claimname.sshd-dir" . }}
+  labels:
+    app: {{ template "sshtunnel.fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  accessModes:
+    - {{ .Values.Persistence.SshdDir.AccessMode | quote }}
+  resources:
+    requests:
+      storage: {{ .Values.Persistence.SshdDir.Size | quote }}
+{{- if .Values.Persistence.SshdDir.StorageClass }}
+{{- if (eq "-" .Values.Persistence.SshdDir.StorageClass) }}
+  storageClassName: ""
+{{- else }}
+  storageClassName: "{{ .Values.Persistence.SshdDir.StorageClass }}"
+{{- end }}
+{{- end }}
+{{- end }}

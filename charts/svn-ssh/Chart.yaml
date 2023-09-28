@@ -1,0 +1,9 @@
+name: svn-ssh
+home: https://github.com/velikaww/helm-charts
+version: 1.0.0
+appVersion: 1.1.0
+description: svn-ssh
+maintainers:
+- name: velikaww
+  email: github@regiswang.com
+
