@@ -1,79 +1,83 @@
-# Default values for ssh-tunnel.
-# This is a YAML-formatted file.
-# Declare name/value pairs to be passed into your templates.
-# name: value
+# Default values for k8tz.
 
-nameOverride: null
-Image: "swr.cn-east-3.myhuaweicloud.com/regiswang/testcontainers/sshd"
-ImageTag: "1.1.0"
-ImagePullPolicy: "IfNotPresent"
-Component: "tunnel"
-Cpu: "200m"
-Memory: "256Mi"
-User: tunnel
-ServicePort: 22
-# For minikube, set this to NodePort, elsewhere use LoadBalancer
-ServiceType: NodePort
-ServiceAnnotations: {}
-  #   service.beta.kubernetes.io/aws-load-balancer-backend-protocol: https
-NodePort: null
-ContainerPort: 22
-LoadBalancerSourceRanges:
-- 0.0.0.0/0
-# Optionally assign a known public LB IP
-# LoadBalancerIP: 1.2.3.4
-# Node labels and tolerations for pod assignment
-# ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
-# ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#taints-and-tolerations-beta-feature
-NodeSelector: {}
-Tolerations: {}
-Persistence:
-  SshdDir:
-    Enabled: true
-    ## A manually managed Persistent Volume and Claim
-    ## Requires Persistence.Enabled: true
-    ## If defined, PVC must be created manually before volume will be bound
-    ExistingClaim: null
+kind: Deployment
+replicaCount: 1
 
-    ## Persistent Volume Storage Class
-    ## If defined, storageClassName: <storageClass>
-    ## If set to "-", storageClassName: "", which disables dynamic provisioning
-    ## If undefined (the default) or set to null, no storageClassName spec is
-    ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
-    ##   GKE, AWS & OpenStack)
-    ##
-    StorageClass: null
-    AccessMode: ReadWriteOnce
-    Size: 1Gi
-  SshDir:
-    Enabled: true
-    ## A manually managed Persistent Volume and Claim
-    ## Requires Persistence.Enabled: true
-    ## If defined, PVC must be created manually before volume will be bound
-    ExistingClaim: null
-  
-    ## Persistent Volume Storage Class
-    ## If defined, storageClassName: <storageClass>
-    ## If set to "-", storageClassName: "", which disables dynamic provisioning
-    ## If undefined (the default) or set to null, no storageClassName spec is
-    ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
-    ##   GKE, AWS & OpenStack)
-    ##
-    StorageClass: null
-    AccessMode: ReadWriteOnce
-    Size: 8Gi
-  volumes:
-#  - name: nothing
-#    emptyDir: {}
-  mounts:
-#  - mountPath: /var/nothing
-#    name: nothing
-#    readOnly: true
+namespace: k8tz
+injectionStrategy: initContainer
+timezone: UTC
+injectAll: true
+cronJobTimeZone: false  # requires kubernetes >=1.24.0-beta.0 with 'CronJobTimeZone' feature gate enabled (alpha)
+verbose: false
 
-NetworkPolicy:
-  # Enable creation of NetworkPolicy resources.
-  Enabled: false
-  # For Kubernetes v1.4, v1.5 and v1.6, use 'extensions/v1beta1'
-  # For Kubernetes v1.7, use 'networking.k8s.io/v1'
-  ApiVersion: apps/v1
+# Labels to apply to all resources
+labels: {}
 
+webhook:
+  failurePolicy: Fail
+
+  tlsMinVersion: ""
+  tlsCipherSuites: ""
+
+  certManager:
+    enabled: false
+    secretTemplate: {}
+    duration: 2160h
+    renewBefore: 720h
+    issuerRef:
+      name: selfsigned
+      kind: ClusterIssuer
+
+  crtPEM: |
+
+  keyPEM: |
+
+  caBundle: |
+
+  ignoredNamespaces:
+    - kube-system
+
+image:
+  repository: quay.io/k8tz/k8tz
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If empty, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+
+securityContext: {}
+
+service:
+  type: ClusterIP
+  port: 443
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

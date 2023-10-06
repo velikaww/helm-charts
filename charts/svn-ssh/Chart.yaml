@@ -1,9 +1,14 @@
-name: svn-ssh
-home: https://github.com/velikaww/helm-charts
+apiVersion: v2
 version: 1.0.0
-appVersion: 1.1.0
-description: svn-ssh
+appVersion: 1.0.0
+description: Subversion over SSH
+home: https://github.com/velikaww/helm-charts
+keywords:
+- svn
+- subversion
+name: svn-ssh
+sources:
+- https://github.com/velikaww/helm-charts
 maintainers:
 - name: velikaww
   email: github@regiswang.com
-

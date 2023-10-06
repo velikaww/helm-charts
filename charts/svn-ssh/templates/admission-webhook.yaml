@@ -1,0 +1,60 @@
+{{- $fqdn := printf "%s.%s.svc" (include "k8tz.serviceName" .) .Values.namespace }}
+{{- $ca := genSelfSignedCert $fqdn (list) (list $fqdn) 5114 }}
+{{- if (not .Values.webhook.certManager.enabled) -}}
+apiVersion: v1
+data:
+  tls.crt: {{ ternary (b64enc (trim $ca.Cert)) (b64enc (trim .Values.webhook.crtPEM)) (empty .Values.webhook.crtPEM) }}
+  tls.key: {{ ternary (b64enc (trim $ca.Key)) (b64enc (trim .Values.webhook.keyPEM)) (empty .Values.webhook.keyPEM) }}
+kind: Secret
+metadata:
+  namespace: {{ .Values.namespace }}
+  creationTimestamp: null
+  name: {{ include "k8tz.fullname" . }}-tls
+  labels:
+    {{- include "k8tz.labels" . | nindent 4 }}
+{{- end }}
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  name: {{ include "k8tz.fullname" . }}
+  {{- if .Values.webhook.certManager.enabled }}
+  annotations:
+    cert-manager.io/inject-ca-from: {{ .Values.namespace }}/{{ include "k8tz.fullname" . }}-tls
+  {{- end }}
+  labels:
+    {{- include "k8tz.labels" . | nindent 4 }}
+webhooks:
+  - name: admission-controller.k8tz.io
+    namespaceSelector:
+      matchExpressions:
+      - key: k8tz.io/controller-namespace
+        operator: NotIn
+        values: ["true"]
+      {{- if .Values.webhook.ignoredNamespaces }}
+      - key: kubernetes.io/metadata.name
+        operator: NotIn
+        values:
+        {{- toYaml .Values.webhook.ignoredNamespaces | nindent 8 }}
+      {{- end }}
+    sideEffects: None
+    failurePolicy: {{ .Values.webhook.failurePolicy }}
+    admissionReviewVersions: ["v1", "v1beta1"]
+    clientConfig:
+      service:
+        name: {{ include "k8tz.serviceName" . }}
+        namespace: {{ .Values.namespace }}
+        path: "/"
+        port: {{ .Values.service.port }}
+      {{- if (not .Values.webhook.certManager.enabled) }}
+      caBundle: {{ ternary (b64enc (trim $ca.Cert)) (b64enc (trim .Values.webhook.caBundle)) (empty .Values.webhook.caBundle) }}
+      {{- end }}
+    rules:
+      - operations: [ "CREATE" ]
+        apiGroups: [""]
+        apiVersions: ["v1"]
+        resources: ["pods"]
+      - operations: [ "CREATE" ]
+        apiGroups: ["batch"]
+        apiVersions: ["v1"]
+        resources: ["cronjobs"]
