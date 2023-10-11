@@ -20,7 +20,7 @@ if [ -n "$PARAM_TARGET_ARCH" ] && [ "$PARAM_TARGET_ARCH" != "$(arch || : 2>/dev/
 fi
 _tags=""
 while [ -n "$1" ] && [ "$1" != "--" ]; do
-  _tags=" -t $1"
+  _tags+=" -t $1"
   shift
 done
 shift || :

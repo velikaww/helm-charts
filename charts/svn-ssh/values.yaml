@@ -1,51 +1,27 @@
-# Default values for k8tz.
 
-kind: Deployment
-replicaCount: 1
-
-namespace: k8tz
-injectionStrategy: initContainer
-timezone: UTC
-injectAll: true
-cronJobTimeZone: false  # requires kubernetes >=1.24.0-beta.0 with 'CronJobTimeZone' feature gate enabled (alpha)
-verbose: false
-
-# Labels to apply to all resources
-labels: {}
-
-webhook:
-  failurePolicy: Fail
-
-  tlsMinVersion: ""
-  tlsCipherSuites: ""
-
-  certManager:
-    enabled: false
-    secretTemplate: {}
-    duration: 2160h
-    renewBefore: 720h
-    issuerRef:
-      name: selfsigned
-      kind: ClusterIssuer
-
-  crtPEM: |
-
-  keyPEM: |
-
-  caBundle: |
-
-  ignoredNamespaces:
-    - kube-system
-
-image:
-  repository: quay.io/k8tz/k8tz
-  pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
-
-imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
+commonLabels: {}
+commonAnnotations: {}
+
+deployment:
+  annotations: {}
+  podAnnotations: {}
+  labels: {}
+  podLabels: {}
+  image:
+    repository: swr.cn-east-3.myhuaweicloud.com/regiswang/custom/svnssh
+    tag: "0.1.0"
+    pullSecrets: []
+    pullPolicy: IfNotPresent
+service:
+  nameOverride: ""
+pvc:
+  nameOverride: ""
+  storageClass: ""
+
+
+
 
 serviceAccount:
   # Annotations to add to the service account
@@ -54,15 +30,13 @@ serviceAccount:
   # If empty, a name is generated using the fullname template
   name: ""
 
-podAnnotations: {}
-
 podSecurityContext: {}
 
 securityContext: {}
 
 service:
-  type: ClusterIP
-  port: 443
+  type: NodePort
+  nodePort: 30722
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
