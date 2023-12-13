@@ -15,8 +15,8 @@ _d=$1
 shift
 cd $dir/$_d
 _cross_build=""
-if [ -n "$PARAM_TARGET_ARCH" ] && [ "$PARAM_TARGET_ARCH" != "$(arch || : 2>/dev/null)" ]; then
-  _cross_build=" --platform=linux/${PARAM_TARGET_ARCH}"
+if [ -n "$TARGET_ARCH" ] && [ "$TARGET_ARCH" != "$(arch || : 2>/dev/null)" ]; then
+  _cross_build=" --platform=linux/${TARGET_ARCH}"
 fi
 _tags=""
 while [ -n "$1" ] && [ "$1" != "--" ]; do
