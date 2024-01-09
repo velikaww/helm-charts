@@ -20,4 +20,4 @@ spec:
       nodePort: {{ .Values.service.nodePort }}
       {{- end }}
   selector:
-    app.kubernetes.io/component: {{ template "app.deployment.name" }}
+    app.kubernetes.io/component: {{ include "app.deployment.name" . }}

@@ -6,7 +6,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   {{- $labels := include "common.tplvalues.merge" ( dict "values" ( list .Values.persistence.ssh.labels .Values.commonLabels ) "context" . ) }}
   labels: {{- include "common.labels.standard" ( dict "customLabels" $labels "context" $ ) | nindent 4 }}
-    app.kubernetes.io/component: {{ template "app.deployment.name" }}
+    app.kubernetes.io/component: {{ include "app.deployment.name" . }}
   {{- if or .Values.deployment.annotations .Values.commonAnnotations }}
   {{- $annotations := include "common.tplvalues.merge" ( dict "values" ( list .Values.deployment.annotations .Values.commonAnnotations ) "context" . ) }}
   annotations: {{- include "common.tplvalues.render" ( dict "value" $annotations "context" $) | nindent 4 }}
@@ -29,15 +29,15 @@ spec:
       volumes:
         - name: sshd
           persistentVolumeClaim:
-            claimName: {{ template "app.pvc.sshd.name" . }}
+            claimName: {{ include "app.pvc.sshd.name" . }}
         - name: ssh
           persistentVolumeClaim:
-            claimName: {{ template "app.pvc.ssh.name" . }}
+            claimName: {{ include "app.pvc.ssh.name" . }}
         - name: data
           persistentVolumeClaim:
-            claimName: {{ template "app.pvc.data.name" . }}
-      {{- include "common.images.pullSecrets" (dict "images" (list .Values.deployment.image)) | nindent 6 }}
-      serviceAccountName: {{ template "app.serviceAccountName" }}
+            claimName: {{ include "app.pvc.data.name" . }}
+      {{- include "common.images.pullSecrets" (dict "images" (list .Values.deployment.image)) | nindent 6 -}}
+      serviceAccountName: {{ include "app.serviceAccountName" . }}
       {{- if .Values.deployment.podSecurityContext }}
       securityContext:
         {{- toYaml .Values.deployment.podSecurityContext | nindent 8 }}
@@ -47,9 +47,9 @@ spec:
           args:
             {{- toYaml .Values.logic.ensureRepos | nindent 12 }}
           securityContext:
-            {{ .Values.deployment.containerSecurityContext | nindent 12 }}
-          image: {{ template "app.image" }}
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+            {{- toYaml .Values.deployment.containerSecurityContext | nindent 12 }}
+          image: {{ include "app.image" . }}
+          imagePullPolicy: {{ .Values.deployment.image.pullPolicy }}
           volumeMounts:
             - name: sshd
               mountPath: /etc/ssh

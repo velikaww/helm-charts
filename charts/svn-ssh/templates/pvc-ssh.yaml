@@ -3,11 +3,11 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ template "app.pvc.ssh.name" }}
+  name: {{ include "app.pvc.ssh.name" . }}
   namespace: {{ .Release.Namespace }}
   {{- $labels := include "common.tplvalues.merge" ( dict "values" ( list .Values.persistence.ssh.labels .Values.commonLabels ) "context" . ) }}
   labels: {{- include "common.labels.standard" ( dict "customLabels" $labels "context" $ ) | nindent 4 }}
-    app.kubernetes.io/component: {{ template "app.pvc.ssh.name" }}
+    app.kubernetes.io/component: {{ include "app.pvc.ssh.name" . }}
   annotations:
     {{- if .Values.persistence.ssh.resourcePolicy }}
     helm.sh/resource-policy: {{ .Values.Values.persistence.ssh.resourcePolicy | quote }}
