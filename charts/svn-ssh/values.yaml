@@ -3,55 +3,62 @@ nameOverride: ""
 fullnameOverride: ""
 commonLabels: {}
 commonAnnotations: {}
-
+serviceAccount:
+  annotations: {}
+  # The name of the service account to use.
+  # If empty, a name is generated using the fullname template
+  name: ""
+  # whether should create for this app
+  create: false
+  labels: {}
+  annotations: {}
 deployment:
   annotations: {}
   podAnnotations: {}
   labels: {}
   podLabels: {}
+  podSecurityContext: {}
+  containerSecurityContext: {}
   image:
     repository: swr.cn-east-3.myhuaweicloud.com/regiswang/custom/svnssh
-    tag: "0.1.0"
+    tag: "1.0"
     pullSecrets: []
     pullPolicy: IfNotPresent
 service:
   nameOverride: ""
-pvc:
-  nameOverride: ""
-  storageClass: ""
-
-
-
-
-serviceAccount:
-  # Annotations to add to the service account
-  annotations: {}
-  # The name of the service account to use.
-  # If empty, a name is generated using the fullname template
-  name: ""
-
-podSecurityContext: {}
-
-securityContext: {}
-
-service:
   type: NodePort
   nodePort: 30722
+  labels: {}
+  annotations: {}
+persistence:
+  ssh:
+    nameOverride: ""
+    labels: {}
+    annotations: {}
+    storageClass: ""
+    resourcePolicy: null
+    accessModes:
+      - ReadWriteOnce
+    size: '1M'
+  sshd:
+    nameOverride: ""
+    labels: {}
+    annotations: {}
+    storageClass: ""
+    resourcePolicy: null
+    accessModes:
+      - ReadWriteOnce
+    size: '1M'
+  data:
+    nameOverride: ""
+    labels: {}
+    annotations: {}
+    storageClass: ""
+    resourcePolicy: null
+    accessModes:
+      - ReadWriteOnce
+    size: null
+logic:
+  ensureRepos: []
 
-resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
 
-nodeSelector: {}
-
-tolerations: []
-
-affinity: {}

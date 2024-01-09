@@ -1,7 +1,8 @@
 #! /bin/bash
 
 echo "Launching svn on \"$DIR_SVN\", repos: $@"
-for _r in "$@"; do
+_r=
+for _r; do
   if [[  -d "$DIR_REPO/$_r" ]]; then
     echo "svn repo \"$_r\" has installed."
   else

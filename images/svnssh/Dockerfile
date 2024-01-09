@@ -3,7 +3,7 @@ FROM swr.cn-east-3.myhuaweicloud.com/regiswang/testcontainers/sshd:1.1.0
 ENV DIR_SVN=/var/svn
 ENV DIR_REPO=$DIR_SVN/repos
 
-RUN apk add subversion shadow && usermod -s /bin/ash svn
+RUN apk add subversion shadow && usermod -s /bin/ash -d "$DIR_SVN" svn
 ADD start.sh /opt/svnssh/
 RUN chmod +x /opt/svnssh/start.sh
 RUN su svn -c 'mkdir -p $DIR_SVN/.ssh && mkdir -p $DIR_REPO'

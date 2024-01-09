@@ -2,10 +2,11 @@
 apiVersion: {{ include "common.capabilities.deployment.apiVersion" . }}
 kind: Deployment
 metadata:
-  name: {{ include "app.fullname" . }}
-  {{- $labels := include "common.tplvalues.merge" ( dict "values" ( list .Values.deployment.labels .Values.commonLabels ) "context" . ) }}
+  name: {{ include "app.deployment.name" . }}
+  namespace: {{ .Release.Namespace }}
+  {{- $labels := include "common.tplvalues.merge" ( dict "values" ( list .Values.persistence.ssh.labels .Values.commonLabels ) "context" . ) }}
   labels: {{- include "common.labels.standard" ( dict "customLabels" $labels "context" $ ) | nindent 4 }}
-    app.kubernetes.io/component: {{ include "app.name" . }}
+    app.kubernetes.io/component: {{ template "app.deployment.name" }}
   {{- if or .Values.deployment.annotations .Values.commonAnnotations }}
   {{- $annotations := include "common.tplvalues.merge" ( dict "values" ( list .Values.deployment.annotations .Values.commonAnnotations ) "context" . ) }}
   annotations: {{- include "common.tplvalues.render" ( dict "value" $annotations "context" $) | nindent 4 }}
@@ -15,11 +16,11 @@ spec:
   {{- $podLabels := include "common.tplvalues.merge" ( dict "values" ( list .Values.deployment.podLabels .Values.commonLabels ) "context" . ) }}
   selector:
     matchLabels: {{- include "common.labels.matchLabels" ( dict "customLabels" $podLabels "context" $ ) | nindent 6 }}
-      app.kubernetes.io/component: {{ include "app.name" . }}
+      app.kubernetes.io/component: {{ include "app.deployment.name" . }}
   template:
     metadata:
       labels: {{- include "common.labels.standard" ( dict "customLabels" $podLabels "context" $ ) | nindent 8 }}
-        app.kubernetes.io/component: {{ include "app.name" . }}
+        app.kubernetes.io/component: {{ include "app.deployment.name" . }}
       {{- if .Values.deployment.podAnnotations }}
       annotations:
         {{- include "common.tplvalues.render" (dict "value" .Values.deployment.podAnnotations "context" $) | nindent 8 }}
@@ -35,113 +36,46 @@ spec:
         - name: data
           persistentVolumeClaim:
             claimName: {{ template "app.pvc.data.name" . }}
-        - name: data
-          persistentVolumeClaim:
-            claimName: {{ template "app.pvc.data.name" . }}
-        - name: sshd-swap
-          emptyDir: {}
       {{- include "common.images.pullSecrets" (dict "images" (list .Values.deployment.image)) | nindent 6 }}
-
-      
-      serviceAccountName: {{ include "k8tz.serviceAccountName" . }}
+      serviceAccountName: {{ template "app.serviceAccountName" }}
+      {{- if .Values.deployment.podSecurityContext }}
       securityContext:
-        {{- include "k8tz.podSecurityContext" . | nindent 8 }}
+        {{- toYaml .Values.deployment.podSecurityContext | nindent 8 }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           args:
-          - "webhook"
-          - "--timezone"
-          - {{ .Values.timezone | quote }}
-          - "--injection-strategy"
-          - {{ .Values.injectionStrategy | quote }}
-          - "--inject={{ .Values.injectAll }}"
-          - "--bootstrap-image"
-          - "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          {{- if .Values.verbose }}
-          - "--verbose"
-          {{- end }}
-          {{- if .Values.webhook.certManager.enabled }}
-          - "--tls-crt"
-          - "/run/secrets/shared-tls/tls.crt"
-          - "--tls-key"
-          - "/run/secrets/shared-tls/tls.key"
-          {{- end }}
-          {{- if .Values.cronJobTimeZone }}
-          {{- if and (ge .Capabilities.KubeVersion.Major "1") (ge .Capabilities.KubeVersion.Minor "24") }}
-          - "--cronJobTimeZone"
-          {{- else }}
-          {{- fail "CronJob injection requires kubernetes >=1.24.0-beta.0 with 'CronJobTimeZone' feature gate enabled" }}
-          {{- end }}
-          {{- end }}
-          {{- if .Values.webhook.tlsMinVersion }}
-          - "--tls-min-version"
-          - "{{ .Values.webhook.tlsMinVersion }}"
-          {{- end }}
-          {{- if .Values.webhook.tlsCipherSuites }}
-          - "--tls-cipher-suites"
-          - "{{ .Values.webhook.tlsCipherSuites }}"
-          {{- end }}
+            {{- toYaml .Values.logic.ensureRepos | nindent 12 }}
           securityContext:
-            {{- include "k8tz.securityContext" . | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+            {{ .Values.deployment.containerSecurityContext | nindent 12 }}
+          image: {{ template "app.image" }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           volumeMounts:
-            - name: tls
-              mountPath: /run/secrets/tls
+            - name: sshd
+              mountPath: /etc/ssh
               readOnly: true
-            {{- if .Values.webhook.certManager.enabled }}
-            - name: shared-tls
-              mountPath: /run/secrets/shared-tls
+            - name: ssh
+              mountPath: /var/svn/.ssh
               readOnly: true
-            {{- end }}
+            - name: data
+              mountPath: /var/svn/repos
           ports:
-            - name: https
-              containerPort: 8443
+            - name: ssh
+              containerPort: 22
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: https
-              scheme: HTTPS
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: https
-              scheme: HTTPS
+          {{- if .Values.deployment.resources }}
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
-        {{- if .Values.webhook.certManager.enabled }}
-        - name: {{ .Chart.Name }}-cert-watcher
-          args:
-          - "cert-watcher"
-          - "--tls-crt"
-          - "/run/secrets/shared-tls/tls.crt"
-          - "--tls-key"
-          - "/run/secrets/shared-tls/tls.key"
-          - "--secret-name"
-          - {{ include "k8tz.fullname" . }}-tls
-          - "--secret-namespace"
-          - {{ .Values.namespace }}
-          securityContext:
-            {{- include "k8tz.securityContext" . | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          volumeMounts:
-            - name: tls
-              mountPath: /run/secrets/tls
-              readOnly: true
-            - name: shared-tls
-              mountPath: /run/secrets/shared-tls
-        {{- end }}
-      {{- with .Values.nodeSelector }}
+            {{- toYaml .Values.deployment.resources | nindent 12 }}
+          {{- end }}
+      {{- with .Values.deployment.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.affinity }}
+      {{- with .Values.deployment.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.tolerations }}
+      {{- with .Values.deployment.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
