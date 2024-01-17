@@ -26,6 +26,7 @@ deployment:
     pullPolicy: IfNotPresent
 service:
   nameOverride: ""
+  port: 22
   type: NodePort
   nodePort: 30722
   labels: {}
