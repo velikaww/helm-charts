@@ -21,7 +21,7 @@ deployment:
   containerSecurityContext: {}
   image:
     repository: swr.cn-east-3.myhuaweicloud.com/regiswang/custom/svnssh
-    tag: "1.0"
+    tag: "0.1"
     pullSecrets: []
     pullPolicy: IfNotPresent
 service:
@@ -36,7 +36,7 @@ persistence:
     nameOverride: ""
     labels: {}
     annotations: {}
-    storageClass: ""
+    storageClass: "-"
     resourcePolicy: null
     accessModes:
       - ReadWriteOnce
@@ -45,7 +45,7 @@ persistence:
     nameOverride: ""
     labels: {}
     annotations: {}
-    storageClass: ""
+    storageClass: "-"
     resourcePolicy: null
     accessModes:
       - ReadWriteOnce
@@ -54,7 +54,7 @@ persistence:
     nameOverride: ""
     labels: {}
     annotations: {}
-    storageClass: ""
+    storageClass: "-"
     resourcePolicy: null
     accessModes:
       - ReadWriteOnce
