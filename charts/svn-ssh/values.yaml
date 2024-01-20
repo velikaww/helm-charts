@@ -21,7 +21,7 @@ deployment:
   containerSecurityContext: {}
   image:
     repository: swr.cn-east-3.myhuaweicloud.com/regiswang/custom/svnssh
-    tag: "0.1"
+    tag: "0.3"
     pullSecrets: []
     pullPolicy: IfNotPresent
 service:

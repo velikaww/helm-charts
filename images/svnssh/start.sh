@@ -7,7 +7,7 @@ for _r; do
     echo "svn repo \"$_r\" has installed."
   else
     echo "Creating repo \"$_r\"..."
-    mkdir -p $DIR_REPO && svnadmin create $DIR_REPO/$_r
+    su - svn -c "mkdir -p $DIR_REPO && svnadmin create $DIR_REPO/$_r"
     echo "Created repo \"$_r\"."
   fi
 done
