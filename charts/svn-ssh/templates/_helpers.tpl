@@ -51,7 +51,7 @@
     {{- if and .Values.configmap .Values.configmap.sshd .Values.configmap.sshd.nameOverride -}}
         {{- print .Values.configmap.sshd.nameOverride -}}
     {{- else -}}
-        {{- printf "%s-data" (include "app.fullname" .) -}}
+        {{- printf "%s-sshd-config" (include "app.fullname" .) -}}
     {{- end -}}
 {{- end -}}
 
