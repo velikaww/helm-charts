@@ -53,10 +53,8 @@ spec:
           volumeMounts:
             - name: sshd
               mountPath: /etc/ssh
-              readOnly: true
             - name: ssh
               mountPath: /var/svn/.ssh
-              readOnly: true
             - name: data
               mountPath: /var/svn/repos
           ports:
