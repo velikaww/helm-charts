@@ -58,7 +58,7 @@ persistence:
     resourcePolicy: null
     accessModes:
       - ReadWriteOnce
-    size: null
+    size: '10G'
 logic:
   ensureRepos: []
 
