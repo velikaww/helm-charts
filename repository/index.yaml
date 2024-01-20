@@ -3,7 +3,7 @@ entries:
   gitolite:
   - apiVersion: v1
     appVersion: 3.6.13
-    created: "2024-01-20T18:49:15.131593+08:00"
+    created: "2024-01-20T19:10:48.350326+08:00"
     description: gitolite
     digest: cec3957a3a1d5b2b68668b8089c439429a12cc92e797cb9f555fa2a644a9090f
     home: http://gitolite.com
@@ -20,7 +20,7 @@ entries:
   ssh-tunnel:
   - apiVersion: v1
     appVersion: 1.1.0
-    created: "2024-01-20T18:49:15.132031+08:00"
+    created: "2024-01-20T19:10:48.350948+08:00"
     description: ssh-tunnel
     digest: 4626c9a5965590aa555e46a412788433bf7edc370d98c37a2610b0dfd9b23061
     home: https://github.com/velikaww/helm-charts
@@ -34,7 +34,7 @@ entries:
   svn-ssh:
   - apiVersion: v2
     appVersion: "0.1"
-    created: "2024-01-20T18:49:15.134604+08:00"
+    created: "2024-01-20T19:10:48.354666+08:00"
     dependencies:
     - name: common
       repository: oci://registry-1.docker.io/bitnamicharts
@@ -42,7 +42,7 @@ entries:
       - bitnami-common
       version: 2.x.x
     description: Subversion over SSH
-    digest: 9506f3ffee24f06894ef917c0f4361d0e6d93c441f6d78dce83da3fac37c9508
+    digest: 80f03656390efcbeee67e65438b680bdd1547c686b72c9c065898078e11c40e7
     home: https://github.com/velikaww/helm-charts
     keywords:
     - svn
@@ -54,11 +54,11 @@ entries:
     sources:
     - https://github.com/velikaww/helm-charts
     urls:
-    - https://velikaww.github.io/helm-charts/svn-ssh-1.0.6.tgz
-    version: 1.0.6
+    - https://velikaww.github.io/helm-charts/svn-ssh-1.0.7.tgz
+    version: 1.0.7
   - apiVersion: v2
     appVersion: "0.1"
-    created: "2024-01-20T18:49:15.133899+08:00"
+    created: "2024-01-20T19:10:48.3532+08:00"
     dependencies:
     - name: common
       repository: oci://registry-1.docker.io/bitnamicharts
@@ -82,7 +82,7 @@ entries:
     version: 1.0.5
   - apiVersion: v2
     appVersion: "0.1"
-    created: "2024-01-20T18:49:15.133207+08:00"
+    created: "2024-01-20T19:10:48.35218+08:00"
     dependencies:
     - name: common
       repository: oci://registry-1.docker.io/bitnamicharts
@@ -104,4 +104,4 @@ entries:
     urls:
     - https://velikaww.github.io/helm-charts/svn-ssh-1.0.4.tgz
     version: 1.0.4
-generated: "2024-01-20T18:49:15.130933+08:00"
+generated: "2024-01-20T19:10:48.349705+08:00"

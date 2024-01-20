@@ -6,7 +6,7 @@ data:
     # Based on: https://github.com/hashbang/docker-gitolite
 
     # What ports, IPs and protocols we listen for
-    Port         {{ .Values.ContainerPort }}
+    Port         {{ .Values.deployment.containerPort }}
     Protocol     2
     TCPKeepAlive no
 

@@ -24,6 +24,7 @@ deployment:
     tag: "0.3"
     pullSecrets: []
     pullPolicy: IfNotPresent
+  containerPort: 22
 service:
   nameOverride: ""
   port: 22
