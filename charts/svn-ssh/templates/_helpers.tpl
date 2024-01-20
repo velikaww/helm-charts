@@ -47,6 +47,14 @@
     {{- end -}}
 {{- end -}}
 
+{{- define "app.cmp.sshd.name" -}}
+    {{- if and .Values.configmap .Values.configmap.sshd .Values.configmap.sshd.nameOverride -}}
+        {{- print .Values.configmap.sshd.nameOverride -}}
+    {{- else -}}
+        {{- printf "%s-data" (include "app.fullname" .) -}}
+    {{- end -}}
+{{- end -}}
+
 {{/*
 Returns the proper service account name depending if an explicit service account name is set
 in the values file. If the name is not set it will default to either mongodb.fullname if serviceAccount.create

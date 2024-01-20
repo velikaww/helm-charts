@@ -27,6 +27,10 @@ spec:
       {{- end }}
     spec:
       volumes:
+        - configMap:
+            defaultMode: 420
+            name: {{ include "app.cmp.sshd.name" . }}
+          name: sshd-config
         - name: sshd
           persistentVolumeClaim:
             claimName: {{ include "app.pvc.sshd.name" . }}
@@ -51,6 +55,9 @@ spec:
           image: {{ include "app.image" . }}
           imagePullPolicy: {{ .Values.deployment.image.pullPolicy }}
           volumeMounts:
+            - mountPath: /etc/ssh/sshd_config
+              name: sshd-config
+              subPath: sshd_config
             - name: sshd
               mountPath: /etc/ssh
             - name: ssh

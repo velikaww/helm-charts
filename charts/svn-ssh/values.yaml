@@ -31,6 +31,11 @@ service:
   nodePort: 30722
   labels: {}
   annotations: {}
+configmap:
+  sshd:
+    nameOverride: ""
+    labels: {}
+    annotations: {}
 persistence:
   ssh:
     nameOverride: ""
