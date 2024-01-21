@@ -63,7 +63,7 @@ spec:
             - name: ssh
               mountPath: /var/svn/.ssh
             - name: data
-              mountPath: /var/svn/repos
+              mountPath: /var/svn/repositories
           ports:
             - name: ssh
               containerPort: {{ .Values.deployment.containerPort }}
